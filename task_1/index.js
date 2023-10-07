@@ -1,7 +1,5 @@
 import { encoded, translations } from "./data.js";
 
-console.log("Let's rock");
-
 const decode = (encoded, translations) => {
   let decoded = [...encoded];
 
@@ -25,4 +23,27 @@ const decode = (encoded, translations) => {
   return decoded;
 };
 
-console.log(decode(encoded, translations));
+// Второй вариант, масштабируемый и удалена ссылка на объекты
+const decodeSecond = (encoded, translations) => {
+  let decoded = [];
+
+  for (let i = 0; i < encoded.length; i++) {
+    decoded = [...decoded, { ...encoded[i] }];
+    const currentDec = decoded[i];
+
+    let arrKey = Object.keys(encoded[i]);
+
+    for (let key = 0; key < arrKey.length; key++) {
+      let curKey = arrKey[key];
+
+      if (translations[currentDec[curKey]] !== undefined) {
+        currentDec[curKey] = translations[currentDec[curKey]];
+      }
+    }
+  }
+
+  return decoded;
+};
+
+// console.log(decode(encoded, translations));
+// console.log(decodeSecond(encoded, translations));
